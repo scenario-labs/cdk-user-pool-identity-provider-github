@@ -24,7 +24,9 @@ See [API](./API.md).
 ## Contributing
 
 Feedback and pull requests are more than welcome 🤗
+
 This project uses the [projen](https://github.com/projen/projen) project generator. Learn how to use it for CDK constructs [here](https://github.com/projen/projen/blob/main/docs/awscdk-construct.md).
+
 Note that the github-cognito-openid-wrapper code is vendored [here](./vendor/github-cognito-openid-vendor). To benefit from newer versions, run the following command:
 
 ```bash
