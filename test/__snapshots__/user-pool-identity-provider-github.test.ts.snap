@@ -1,0 +1,1700 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`snapshot 1`] = `
+Object {
+  "Outputs": Object {
+    "UserPoolIdentityProviderGithubRestApiEndpoint25B1E176": Object {
+      "Value": Object {
+        "Fn::Join": Array [
+          "",
+          Array [
+            "https://",
+            Object {
+              "Ref": "UserPoolIdentityProviderGithubRestApi0F799446",
+            },
+            ".execute-api.",
+            Object {
+              "Ref": "AWS::Region",
+            },
+            ".",
+            Object {
+              "Ref": "AWS::URLSuffix",
+            },
+            "/",
+            Object {
+              "Ref": "UserPoolIdentityProviderGithubRestApiDeploymentStageprod1DFED6FB",
+            },
+            "/",
+          ],
+        ],
+      },
+    },
+  },
+  "Parameters": Object {
+    "AssetParameters339f839a67c6b9f507dc7d48b38a2e930ddc98b48264bda301e31a141f2e3ebdArtifactHash4718D937": Object {
+      "Description": "Artifact hash for asset \\"339f839a67c6b9f507dc7d48b38a2e930ddc98b48264bda301e31a141f2e3ebd\\"",
+      "Type": "String",
+    },
+    "AssetParameters339f839a67c6b9f507dc7d48b38a2e930ddc98b48264bda301e31a141f2e3ebdS3BucketDB5AE1C4": Object {
+      "Description": "S3 bucket for asset \\"339f839a67c6b9f507dc7d48b38a2e930ddc98b48264bda301e31a141f2e3ebd\\"",
+      "Type": "String",
+    },
+    "AssetParameters339f839a67c6b9f507dc7d48b38a2e930ddc98b48264bda301e31a141f2e3ebdS3VersionKey1E3299C1": Object {
+      "Description": "S3 key for asset version \\"339f839a67c6b9f507dc7d48b38a2e930ddc98b48264bda301e31a141f2e3ebd\\"",
+      "Type": "String",
+    },
+  },
+  "Resources": Object {
+    "UserPool6BA7E5F2": Object {
+      "DeletionPolicy": "Retain",
+      "Properties": Object {
+        "AccountRecoverySetting": Object {
+          "RecoveryMechanisms": Array [
+            Object {
+              "Name": "verified_phone_number",
+              "Priority": 1,
+            },
+            Object {
+              "Name": "verified_email",
+              "Priority": 2,
+            },
+          ],
+        },
+        "AdminCreateUserConfig": Object {
+          "AllowAdminCreateUserOnly": true,
+        },
+        "EmailVerificationMessage": "The verification code to your new account is {####}",
+        "EmailVerificationSubject": "Verify your new account",
+        "SmsVerificationMessage": "The verification code to your new account is {####}",
+        "VerificationMessageTemplate": Object {
+          "DefaultEmailOption": "CONFIRM_WITH_CODE",
+          "EmailMessage": "The verification code to your new account is {####}",
+          "EmailSubject": "Verify your new account",
+          "SmsMessage": "The verification code to your new account is {####}",
+        },
+      },
+      "Type": "AWS::Cognito::UserPool",
+      "UpdateReplacePolicy": "Retain",
+    },
+    "UserPoolIdentityProviderGithubAuthorizeFunctionEB8B44CA": Object {
+      "DependsOn": Array [
+        "UserPoolIdentityProviderGithubAuthorizeFunctionServiceRole8EDFF550",
+      ],
+      "Properties": Object {
+        "Code": Object {
+          "S3Bucket": Object {
+            "Ref": "AssetParameters339f839a67c6b9f507dc7d48b38a2e930ddc98b48264bda301e31a141f2e3ebdS3BucketDB5AE1C4",
+          },
+          "S3Key": Object {
+            "Fn::Join": Array [
+              "",
+              Array [
+                Object {
+                  "Fn::Select": Array [
+                    0,
+                    Object {
+                      "Fn::Split": Array [
+                        "||",
+                        Object {
+                          "Ref": "AssetParameters339f839a67c6b9f507dc7d48b38a2e930ddc98b48264bda301e31a141f2e3ebdS3VersionKey1E3299C1",
+                        },
+                      ],
+                    },
+                  ],
+                },
+                Object {
+                  "Fn::Select": Array [
+                    1,
+                    Object {
+                      "Fn::Split": Array [
+                        "||",
+                        Object {
+                          "Ref": "AssetParameters339f839a67c6b9f507dc7d48b38a2e930ddc98b48264bda301e31a141f2e3ebdS3VersionKey1E3299C1",
+                        },
+                      ],
+                    },
+                  ],
+                },
+              ],
+            ],
+          },
+        },
+        "Environment": Object {
+          "Variables": Object {
+            "COGNITO_REDIRECT_URI": "https://cognito.domain/oauth2/idpresponse",
+            "GITHUB_API_URL": "https://api.github.com",
+            "GITHUB_CLIENT_ID": "myClientId",
+            "GITHUB_CLIENT_SECRET": "myClientSecret",
+            "GITHUB_LOGIN_URL": "https://github.com",
+          },
+        },
+        "Handler": "authorize.handler",
+        "Role": Object {
+          "Fn::GetAtt": Array [
+            "UserPoolIdentityProviderGithubAuthorizeFunctionServiceRole8EDFF550",
+            "Arn",
+          ],
+        },
+        "Runtime": "nodejs14.x",
+        "Timeout": 900,
+      },
+      "Type": "AWS::Lambda::Function",
+    },
+    "UserPoolIdentityProviderGithubAuthorizeFunctionServiceRole8EDFF550": Object {
+      "Properties": Object {
+        "AssumeRolePolicyDocument": Object {
+          "Statement": Array [
+            Object {
+              "Action": "sts:AssumeRole",
+              "Effect": "Allow",
+              "Principal": Object {
+                "Service": "lambda.amazonaws.com",
+              },
+            },
+          ],
+          "Version": "2012-10-17",
+        },
+        "ManagedPolicyArns": Array [
+          Object {
+            "Fn::Join": Array [
+              "",
+              Array [
+                "arn:",
+                Object {
+                  "Ref": "AWS::Partition",
+                },
+                ":iam::aws:policy/service-role/AWSLambdaBasicExecutionRole",
+              ],
+            ],
+          },
+        ],
+      },
+      "Type": "AWS::IAM::Role",
+    },
+    "UserPoolIdentityProviderGithubB628B0D7": Object {
+      "Properties": Object {
+        "AttributeMapping": Object {
+          "email": "email",
+          "email_verified": "email_verified",
+          "name": "name",
+          "picture": "picture",
+          "preferred_username": "preferred_username",
+          "profile": "profile",
+          "updated_at": "updated_at",
+          "username": "sub",
+          "website": "website",
+        },
+        "ProviderDetails": Object {
+          "attributes_request_method": "GET",
+          "attributes_url": Object {
+            "Fn::Join": Array [
+              "",
+              Array [
+                "https://",
+                Object {
+                  "Ref": "UserPoolIdentityProviderGithubRestApi0F799446",
+                },
+                ".execute-api.",
+                Object {
+                  "Ref": "AWS::Region",
+                },
+                ".",
+                Object {
+                  "Ref": "AWS::URLSuffix",
+                },
+                "/",
+                Object {
+                  "Ref": "UserPoolIdentityProviderGithubRestApiDeploymentStageprod1DFED6FB",
+                },
+                "//userinfo",
+              ],
+            ],
+          },
+          "authorize_scopes": "openid read:user user:email",
+          "authorize_url": Object {
+            "Fn::Join": Array [
+              "",
+              Array [
+                "https://",
+                Object {
+                  "Ref": "UserPoolIdentityProviderGithubRestApi0F799446",
+                },
+                ".execute-api.",
+                Object {
+                  "Ref": "AWS::Region",
+                },
+                ".",
+                Object {
+                  "Ref": "AWS::URLSuffix",
+                },
+                "/",
+                Object {
+                  "Ref": "UserPoolIdentityProviderGithubRestApiDeploymentStageprod1DFED6FB",
+                },
+                "//authorize",
+              ],
+            ],
+          },
+          "client_id": "myClientId",
+          "client_secret": "myClientSecret",
+          "jwks_uri": Object {
+            "Fn::Join": Array [
+              "",
+              Array [
+                "https://",
+                Object {
+                  "Ref": "UserPoolIdentityProviderGithubRestApi0F799446",
+                },
+                ".execute-api.",
+                Object {
+                  "Ref": "AWS::Region",
+                },
+                ".",
+                Object {
+                  "Ref": "AWS::URLSuffix",
+                },
+                "/",
+                Object {
+                  "Ref": "UserPoolIdentityProviderGithubRestApiDeploymentStageprod1DFED6FB",
+                },
+                "//.well-known/jwks.json",
+              ],
+            ],
+          },
+          "oidc_issuer": Object {
+            "Fn::Join": Array [
+              "",
+              Array [
+                "https://",
+                Object {
+                  "Ref": "UserPoolIdentityProviderGithubRestApi0F799446",
+                },
+                ".execute-api.",
+                Object {
+                  "Ref": "AWS::Region",
+                },
+                ".",
+                Object {
+                  "Ref": "AWS::URLSuffix",
+                },
+                "/",
+                Object {
+                  "Ref": "UserPoolIdentityProviderGithubRestApiDeploymentStageprod1DFED6FB",
+                },
+                "/",
+              ],
+            ],
+          },
+          "token_url": Object {
+            "Fn::Join": Array [
+              "",
+              Array [
+                "https://",
+                Object {
+                  "Ref": "UserPoolIdentityProviderGithubRestApi0F799446",
+                },
+                ".execute-api.",
+                Object {
+                  "Ref": "AWS::Region",
+                },
+                ".",
+                Object {
+                  "Ref": "AWS::URLSuffix",
+                },
+                "/",
+                Object {
+                  "Ref": "UserPoolIdentityProviderGithubRestApiDeploymentStageprod1DFED6FB",
+                },
+                "//token",
+              ],
+            ],
+          },
+        },
+        "ProviderName": "Github",
+        "ProviderType": "OIDC",
+        "UserPoolId": Object {
+          "Ref": "UserPool6BA7E5F2",
+        },
+      },
+      "Type": "AWS::Cognito::UserPoolIdentityProvider",
+    },
+    "UserPoolIdentityProviderGithubJwksFunction1B710A93": Object {
+      "DependsOn": Array [
+        "UserPoolIdentityProviderGithubJwksFunctionServiceRole6D99D353",
+      ],
+      "Properties": Object {
+        "Code": Object {
+          "S3Bucket": Object {
+            "Ref": "AssetParameters339f839a67c6b9f507dc7d48b38a2e930ddc98b48264bda301e31a141f2e3ebdS3BucketDB5AE1C4",
+          },
+          "S3Key": Object {
+            "Fn::Join": Array [
+              "",
+              Array [
+                Object {
+                  "Fn::Select": Array [
+                    0,
+                    Object {
+                      "Fn::Split": Array [
+                        "||",
+                        Object {
+                          "Ref": "AssetParameters339f839a67c6b9f507dc7d48b38a2e930ddc98b48264bda301e31a141f2e3ebdS3VersionKey1E3299C1",
+                        },
+                      ],
+                    },
+                  ],
+                },
+                Object {
+                  "Fn::Select": Array [
+                    1,
+                    Object {
+                      "Fn::Split": Array [
+                        "||",
+                        Object {
+                          "Ref": "AssetParameters339f839a67c6b9f507dc7d48b38a2e930ddc98b48264bda301e31a141f2e3ebdS3VersionKey1E3299C1",
+                        },
+                      ],
+                    },
+                  ],
+                },
+              ],
+            ],
+          },
+        },
+        "Environment": Object {
+          "Variables": Object {
+            "COGNITO_REDIRECT_URI": "https://cognito.domain/oauth2/idpresponse",
+            "GITHUB_API_URL": "https://api.github.com",
+            "GITHUB_CLIENT_ID": "myClientId",
+            "GITHUB_CLIENT_SECRET": "myClientSecret",
+            "GITHUB_LOGIN_URL": "https://github.com",
+          },
+        },
+        "Handler": "jwks.handler",
+        "Role": Object {
+          "Fn::GetAtt": Array [
+            "UserPoolIdentityProviderGithubJwksFunctionServiceRole6D99D353",
+            "Arn",
+          ],
+        },
+        "Runtime": "nodejs14.x",
+        "Timeout": 900,
+      },
+      "Type": "AWS::Lambda::Function",
+    },
+    "UserPoolIdentityProviderGithubJwksFunctionServiceRole6D99D353": Object {
+      "Properties": Object {
+        "AssumeRolePolicyDocument": Object {
+          "Statement": Array [
+            Object {
+              "Action": "sts:AssumeRole",
+              "Effect": "Allow",
+              "Principal": Object {
+                "Service": "lambda.amazonaws.com",
+              },
+            },
+          ],
+          "Version": "2012-10-17",
+        },
+        "ManagedPolicyArns": Array [
+          Object {
+            "Fn::Join": Array [
+              "",
+              Array [
+                "arn:",
+                Object {
+                  "Ref": "AWS::Partition",
+                },
+                ":iam::aws:policy/service-role/AWSLambdaBasicExecutionRole",
+              ],
+            ],
+          },
+        ],
+      },
+      "Type": "AWS::IAM::Role",
+    },
+    "UserPoolIdentityProviderGithubOpenIdDiscoveryFunction0CD1BB3A": Object {
+      "DependsOn": Array [
+        "UserPoolIdentityProviderGithubOpenIdDiscoveryFunctionServiceRole7F728233",
+      ],
+      "Properties": Object {
+        "Code": Object {
+          "S3Bucket": Object {
+            "Ref": "AssetParameters339f839a67c6b9f507dc7d48b38a2e930ddc98b48264bda301e31a141f2e3ebdS3BucketDB5AE1C4",
+          },
+          "S3Key": Object {
+            "Fn::Join": Array [
+              "",
+              Array [
+                Object {
+                  "Fn::Select": Array [
+                    0,
+                    Object {
+                      "Fn::Split": Array [
+                        "||",
+                        Object {
+                          "Ref": "AssetParameters339f839a67c6b9f507dc7d48b38a2e930ddc98b48264bda301e31a141f2e3ebdS3VersionKey1E3299C1",
+                        },
+                      ],
+                    },
+                  ],
+                },
+                Object {
+                  "Fn::Select": Array [
+                    1,
+                    Object {
+                      "Fn::Split": Array [
+                        "||",
+                        Object {
+                          "Ref": "AssetParameters339f839a67c6b9f507dc7d48b38a2e930ddc98b48264bda301e31a141f2e3ebdS3VersionKey1E3299C1",
+                        },
+                      ],
+                    },
+                  ],
+                },
+              ],
+            ],
+          },
+        },
+        "Environment": Object {
+          "Variables": Object {
+            "COGNITO_REDIRECT_URI": "https://cognito.domain/oauth2/idpresponse",
+            "GITHUB_API_URL": "https://api.github.com",
+            "GITHUB_CLIENT_ID": "myClientId",
+            "GITHUB_CLIENT_SECRET": "myClientSecret",
+            "GITHUB_LOGIN_URL": "https://github.com",
+          },
+        },
+        "Handler": "openIdConfiguration.handler",
+        "Role": Object {
+          "Fn::GetAtt": Array [
+            "UserPoolIdentityProviderGithubOpenIdDiscoveryFunctionServiceRole7F728233",
+            "Arn",
+          ],
+        },
+        "Runtime": "nodejs14.x",
+        "Timeout": 900,
+      },
+      "Type": "AWS::Lambda::Function",
+    },
+    "UserPoolIdentityProviderGithubOpenIdDiscoveryFunctionServiceRole7F728233": Object {
+      "Properties": Object {
+        "AssumeRolePolicyDocument": Object {
+          "Statement": Array [
+            Object {
+              "Action": "sts:AssumeRole",
+              "Effect": "Allow",
+              "Principal": Object {
+                "Service": "lambda.amazonaws.com",
+              },
+            },
+          ],
+          "Version": "2012-10-17",
+        },
+        "ManagedPolicyArns": Array [
+          Object {
+            "Fn::Join": Array [
+              "",
+              Array [
+                "arn:",
+                Object {
+                  "Ref": "AWS::Partition",
+                },
+                ":iam::aws:policy/service-role/AWSLambdaBasicExecutionRole",
+              ],
+            ],
+          },
+        ],
+      },
+      "Type": "AWS::IAM::Role",
+    },
+    "UserPoolIdentityProviderGithubRestApi0F799446": Object {
+      "Properties": Object {
+        "Name": "RestApi",
+      },
+      "Type": "AWS::ApiGateway::RestApi",
+    },
+    "UserPoolIdentityProviderGithubRestApiAccount55BDCC2A": Object {
+      "DependsOn": Array [
+        "UserPoolIdentityProviderGithubRestApi0F799446",
+      ],
+      "Properties": Object {
+        "CloudWatchRoleArn": Object {
+          "Fn::GetAtt": Array [
+            "UserPoolIdentityProviderGithubRestApiCloudWatchRoleB5D7D7B4",
+            "Arn",
+          ],
+        },
+      },
+      "Type": "AWS::ApiGateway::Account",
+    },
+    "UserPoolIdentityProviderGithubRestApiCloudWatchRoleB5D7D7B4": Object {
+      "Properties": Object {
+        "AssumeRolePolicyDocument": Object {
+          "Statement": Array [
+            Object {
+              "Action": "sts:AssumeRole",
+              "Effect": "Allow",
+              "Principal": Object {
+                "Service": "apigateway.amazonaws.com",
+              },
+            },
+          ],
+          "Version": "2012-10-17",
+        },
+        "ManagedPolicyArns": Array [
+          Object {
+            "Fn::Join": Array [
+              "",
+              Array [
+                "arn:",
+                Object {
+                  "Ref": "AWS::Partition",
+                },
+                ":iam::aws:policy/service-role/AmazonAPIGatewayPushToCloudWatchLogs",
+              ],
+            ],
+          },
+        ],
+      },
+      "Type": "AWS::IAM::Role",
+    },
+    "UserPoolIdentityProviderGithubRestApiDeployment93F29785928ffe3ce52fb45dad8bb04ee81da42b": Object {
+      "DependsOn": Array [
+        "UserPoolIdentityProviderGithubRestApiwellknownjwksjsonGET41046788",
+        "UserPoolIdentityProviderGithubRestApiwellknownjwksjson9BF8A308",
+        "UserPoolIdentityProviderGithubRestApiwellknownopenidconfigurationGET96E021A8",
+        "UserPoolIdentityProviderGithubRestApiwellknownopenidconfiguration4BEA7214",
+        "UserPoolIdentityProviderGithubRestApiwellknownE0ADCF26",
+        "UserPoolIdentityProviderGithubRestApiauthorizeGET73A3F9FF",
+        "UserPoolIdentityProviderGithubRestApiauthorize3BF07DF3",
+        "UserPoolIdentityProviderGithubRestApitokenGET9E8EC655",
+        "UserPoolIdentityProviderGithubRestApitokenPOST4D1021EE",
+        "UserPoolIdentityProviderGithubRestApitoken2E0846BF",
+        "UserPoolIdentityProviderGithubRestApiuserinfoGET361854FC",
+        "UserPoolIdentityProviderGithubRestApiuserinfoPOST6FD3A9EC",
+        "UserPoolIdentityProviderGithubRestApiuserinfo1EAF8AC8",
+      ],
+      "Properties": Object {
+        "Description": "Automatically created by the RestApi construct",
+        "RestApiId": Object {
+          "Ref": "UserPoolIdentityProviderGithubRestApi0F799446",
+        },
+      },
+      "Type": "AWS::ApiGateway::Deployment",
+    },
+    "UserPoolIdentityProviderGithubRestApiDeploymentStageprod1DFED6FB": Object {
+      "Properties": Object {
+        "DeploymentId": Object {
+          "Ref": "UserPoolIdentityProviderGithubRestApiDeployment93F29785928ffe3ce52fb45dad8bb04ee81da42b",
+        },
+        "RestApiId": Object {
+          "Ref": "UserPoolIdentityProviderGithubRestApi0F799446",
+        },
+        "StageName": "prod",
+      },
+      "Type": "AWS::ApiGateway::Stage",
+    },
+    "UserPoolIdentityProviderGithubRestApiauthorize3BF07DF3": Object {
+      "Properties": Object {
+        "ParentId": Object {
+          "Fn::GetAtt": Array [
+            "UserPoolIdentityProviderGithubRestApi0F799446",
+            "RootResourceId",
+          ],
+        },
+        "PathPart": "authorize",
+        "RestApiId": Object {
+          "Ref": "UserPoolIdentityProviderGithubRestApi0F799446",
+        },
+      },
+      "Type": "AWS::ApiGateway::Resource",
+    },
+    "UserPoolIdentityProviderGithubRestApiauthorizeGET73A3F9FF": Object {
+      "Properties": Object {
+        "AuthorizationType": "NONE",
+        "HttpMethod": "GET",
+        "Integration": Object {
+          "IntegrationHttpMethod": "POST",
+          "Type": "AWS_PROXY",
+          "Uri": Object {
+            "Fn::Join": Array [
+              "",
+              Array [
+                "arn:",
+                Object {
+                  "Ref": "AWS::Partition",
+                },
+                ":apigateway:",
+                Object {
+                  "Ref": "AWS::Region",
+                },
+                ":lambda:path/2015-03-31/functions/",
+                Object {
+                  "Fn::GetAtt": Array [
+                    "UserPoolIdentityProviderGithubAuthorizeFunctionEB8B44CA",
+                    "Arn",
+                  ],
+                },
+                "/invocations",
+              ],
+            ],
+          },
+        },
+        "ResourceId": Object {
+          "Ref": "UserPoolIdentityProviderGithubRestApiauthorize3BF07DF3",
+        },
+        "RestApiId": Object {
+          "Ref": "UserPoolIdentityProviderGithubRestApi0F799446",
+        },
+      },
+      "Type": "AWS::ApiGateway::Method",
+    },
+    "UserPoolIdentityProviderGithubRestApiauthorizeGETApiPermissionTestUserPoolIdentityProviderGithubRestApiA9E09D1EGETauthorize48976EA6": Object {
+      "Properties": Object {
+        "Action": "lambda:InvokeFunction",
+        "FunctionName": Object {
+          "Fn::GetAtt": Array [
+            "UserPoolIdentityProviderGithubAuthorizeFunctionEB8B44CA",
+            "Arn",
+          ],
+        },
+        "Principal": "apigateway.amazonaws.com",
+        "SourceArn": Object {
+          "Fn::Join": Array [
+            "",
+            Array [
+              "arn:",
+              Object {
+                "Ref": "AWS::Partition",
+              },
+              ":execute-api:",
+              Object {
+                "Ref": "AWS::Region",
+              },
+              ":",
+              Object {
+                "Ref": "AWS::AccountId",
+              },
+              ":",
+              Object {
+                "Ref": "UserPoolIdentityProviderGithubRestApi0F799446",
+              },
+              "/test-invoke-stage/GET/authorize",
+            ],
+          ],
+        },
+      },
+      "Type": "AWS::Lambda::Permission",
+    },
+    "UserPoolIdentityProviderGithubRestApiauthorizeGETApiPermissionUserPoolIdentityProviderGithubRestApiA9E09D1EGETauthorizeEBC73E9B": Object {
+      "Properties": Object {
+        "Action": "lambda:InvokeFunction",
+        "FunctionName": Object {
+          "Fn::GetAtt": Array [
+            "UserPoolIdentityProviderGithubAuthorizeFunctionEB8B44CA",
+            "Arn",
+          ],
+        },
+        "Principal": "apigateway.amazonaws.com",
+        "SourceArn": Object {
+          "Fn::Join": Array [
+            "",
+            Array [
+              "arn:",
+              Object {
+                "Ref": "AWS::Partition",
+              },
+              ":execute-api:",
+              Object {
+                "Ref": "AWS::Region",
+              },
+              ":",
+              Object {
+                "Ref": "AWS::AccountId",
+              },
+              ":",
+              Object {
+                "Ref": "UserPoolIdentityProviderGithubRestApi0F799446",
+              },
+              "/",
+              Object {
+                "Ref": "UserPoolIdentityProviderGithubRestApiDeploymentStageprod1DFED6FB",
+              },
+              "/GET/authorize",
+            ],
+          ],
+        },
+      },
+      "Type": "AWS::Lambda::Permission",
+    },
+    "UserPoolIdentityProviderGithubRestApitoken2E0846BF": Object {
+      "Properties": Object {
+        "ParentId": Object {
+          "Fn::GetAtt": Array [
+            "UserPoolIdentityProviderGithubRestApi0F799446",
+            "RootResourceId",
+          ],
+        },
+        "PathPart": "token",
+        "RestApiId": Object {
+          "Ref": "UserPoolIdentityProviderGithubRestApi0F799446",
+        },
+      },
+      "Type": "AWS::ApiGateway::Resource",
+    },
+    "UserPoolIdentityProviderGithubRestApitokenGET9E8EC655": Object {
+      "Properties": Object {
+        "AuthorizationType": "NONE",
+        "HttpMethod": "GET",
+        "Integration": Object {
+          "IntegrationHttpMethod": "POST",
+          "Type": "AWS_PROXY",
+          "Uri": Object {
+            "Fn::Join": Array [
+              "",
+              Array [
+                "arn:",
+                Object {
+                  "Ref": "AWS::Partition",
+                },
+                ":apigateway:",
+                Object {
+                  "Ref": "AWS::Region",
+                },
+                ":lambda:path/2015-03-31/functions/",
+                Object {
+                  "Fn::GetAtt": Array [
+                    "UserPoolIdentityProviderGithubTokenFunction48DAAB6C",
+                    "Arn",
+                  ],
+                },
+                "/invocations",
+              ],
+            ],
+          },
+        },
+        "ResourceId": Object {
+          "Ref": "UserPoolIdentityProviderGithubRestApitoken2E0846BF",
+        },
+        "RestApiId": Object {
+          "Ref": "UserPoolIdentityProviderGithubRestApi0F799446",
+        },
+      },
+      "Type": "AWS::ApiGateway::Method",
+    },
+    "UserPoolIdentityProviderGithubRestApitokenGETApiPermissionTestUserPoolIdentityProviderGithubRestApiA9E09D1EGETtoken3B90B130": Object {
+      "Properties": Object {
+        "Action": "lambda:InvokeFunction",
+        "FunctionName": Object {
+          "Fn::GetAtt": Array [
+            "UserPoolIdentityProviderGithubTokenFunction48DAAB6C",
+            "Arn",
+          ],
+        },
+        "Principal": "apigateway.amazonaws.com",
+        "SourceArn": Object {
+          "Fn::Join": Array [
+            "",
+            Array [
+              "arn:",
+              Object {
+                "Ref": "AWS::Partition",
+              },
+              ":execute-api:",
+              Object {
+                "Ref": "AWS::Region",
+              },
+              ":",
+              Object {
+                "Ref": "AWS::AccountId",
+              },
+              ":",
+              Object {
+                "Ref": "UserPoolIdentityProviderGithubRestApi0F799446",
+              },
+              "/test-invoke-stage/GET/token",
+            ],
+          ],
+        },
+      },
+      "Type": "AWS::Lambda::Permission",
+    },
+    "UserPoolIdentityProviderGithubRestApitokenGETApiPermissionUserPoolIdentityProviderGithubRestApiA9E09D1EGETtoken274D7B89": Object {
+      "Properties": Object {
+        "Action": "lambda:InvokeFunction",
+        "FunctionName": Object {
+          "Fn::GetAtt": Array [
+            "UserPoolIdentityProviderGithubTokenFunction48DAAB6C",
+            "Arn",
+          ],
+        },
+        "Principal": "apigateway.amazonaws.com",
+        "SourceArn": Object {
+          "Fn::Join": Array [
+            "",
+            Array [
+              "arn:",
+              Object {
+                "Ref": "AWS::Partition",
+              },
+              ":execute-api:",
+              Object {
+                "Ref": "AWS::Region",
+              },
+              ":",
+              Object {
+                "Ref": "AWS::AccountId",
+              },
+              ":",
+              Object {
+                "Ref": "UserPoolIdentityProviderGithubRestApi0F799446",
+              },
+              "/",
+              Object {
+                "Ref": "UserPoolIdentityProviderGithubRestApiDeploymentStageprod1DFED6FB",
+              },
+              "/GET/token",
+            ],
+          ],
+        },
+      },
+      "Type": "AWS::Lambda::Permission",
+    },
+    "UserPoolIdentityProviderGithubRestApitokenPOST4D1021EE": Object {
+      "Properties": Object {
+        "AuthorizationType": "NONE",
+        "HttpMethod": "POST",
+        "Integration": Object {
+          "IntegrationHttpMethod": "POST",
+          "Type": "AWS_PROXY",
+          "Uri": Object {
+            "Fn::Join": Array [
+              "",
+              Array [
+                "arn:",
+                Object {
+                  "Ref": "AWS::Partition",
+                },
+                ":apigateway:",
+                Object {
+                  "Ref": "AWS::Region",
+                },
+                ":lambda:path/2015-03-31/functions/",
+                Object {
+                  "Fn::GetAtt": Array [
+                    "UserPoolIdentityProviderGithubTokenFunction48DAAB6C",
+                    "Arn",
+                  ],
+                },
+                "/invocations",
+              ],
+            ],
+          },
+        },
+        "ResourceId": Object {
+          "Ref": "UserPoolIdentityProviderGithubRestApitoken2E0846BF",
+        },
+        "RestApiId": Object {
+          "Ref": "UserPoolIdentityProviderGithubRestApi0F799446",
+        },
+      },
+      "Type": "AWS::ApiGateway::Method",
+    },
+    "UserPoolIdentityProviderGithubRestApitokenPOSTApiPermissionTestUserPoolIdentityProviderGithubRestApiA9E09D1EPOSTtoken13EAB329": Object {
+      "Properties": Object {
+        "Action": "lambda:InvokeFunction",
+        "FunctionName": Object {
+          "Fn::GetAtt": Array [
+            "UserPoolIdentityProviderGithubTokenFunction48DAAB6C",
+            "Arn",
+          ],
+        },
+        "Principal": "apigateway.amazonaws.com",
+        "SourceArn": Object {
+          "Fn::Join": Array [
+            "",
+            Array [
+              "arn:",
+              Object {
+                "Ref": "AWS::Partition",
+              },
+              ":execute-api:",
+              Object {
+                "Ref": "AWS::Region",
+              },
+              ":",
+              Object {
+                "Ref": "AWS::AccountId",
+              },
+              ":",
+              Object {
+                "Ref": "UserPoolIdentityProviderGithubRestApi0F799446",
+              },
+              "/test-invoke-stage/POST/token",
+            ],
+          ],
+        },
+      },
+      "Type": "AWS::Lambda::Permission",
+    },
+    "UserPoolIdentityProviderGithubRestApitokenPOSTApiPermissionUserPoolIdentityProviderGithubRestApiA9E09D1EPOSTtoken89F83867": Object {
+      "Properties": Object {
+        "Action": "lambda:InvokeFunction",
+        "FunctionName": Object {
+          "Fn::GetAtt": Array [
+            "UserPoolIdentityProviderGithubTokenFunction48DAAB6C",
+            "Arn",
+          ],
+        },
+        "Principal": "apigateway.amazonaws.com",
+        "SourceArn": Object {
+          "Fn::Join": Array [
+            "",
+            Array [
+              "arn:",
+              Object {
+                "Ref": "AWS::Partition",
+              },
+              ":execute-api:",
+              Object {
+                "Ref": "AWS::Region",
+              },
+              ":",
+              Object {
+                "Ref": "AWS::AccountId",
+              },
+              ":",
+              Object {
+                "Ref": "UserPoolIdentityProviderGithubRestApi0F799446",
+              },
+              "/",
+              Object {
+                "Ref": "UserPoolIdentityProviderGithubRestApiDeploymentStageprod1DFED6FB",
+              },
+              "/POST/token",
+            ],
+          ],
+        },
+      },
+      "Type": "AWS::Lambda::Permission",
+    },
+    "UserPoolIdentityProviderGithubRestApiuserinfo1EAF8AC8": Object {
+      "Properties": Object {
+        "ParentId": Object {
+          "Fn::GetAtt": Array [
+            "UserPoolIdentityProviderGithubRestApi0F799446",
+            "RootResourceId",
+          ],
+        },
+        "PathPart": "userinfo",
+        "RestApiId": Object {
+          "Ref": "UserPoolIdentityProviderGithubRestApi0F799446",
+        },
+      },
+      "Type": "AWS::ApiGateway::Resource",
+    },
+    "UserPoolIdentityProviderGithubRestApiuserinfoGET361854FC": Object {
+      "Properties": Object {
+        "AuthorizationType": "NONE",
+        "HttpMethod": "GET",
+        "Integration": Object {
+          "IntegrationHttpMethod": "POST",
+          "Type": "AWS_PROXY",
+          "Uri": Object {
+            "Fn::Join": Array [
+              "",
+              Array [
+                "arn:",
+                Object {
+                  "Ref": "AWS::Partition",
+                },
+                ":apigateway:",
+                Object {
+                  "Ref": "AWS::Region",
+                },
+                ":lambda:path/2015-03-31/functions/",
+                Object {
+                  "Fn::GetAtt": Array [
+                    "UserPoolIdentityProviderGithubUserInfoFunction04398D35",
+                    "Arn",
+                  ],
+                },
+                "/invocations",
+              ],
+            ],
+          },
+        },
+        "ResourceId": Object {
+          "Ref": "UserPoolIdentityProviderGithubRestApiuserinfo1EAF8AC8",
+        },
+        "RestApiId": Object {
+          "Ref": "UserPoolIdentityProviderGithubRestApi0F799446",
+        },
+      },
+      "Type": "AWS::ApiGateway::Method",
+    },
+    "UserPoolIdentityProviderGithubRestApiuserinfoGETApiPermissionTestUserPoolIdentityProviderGithubRestApiA9E09D1EGETuserinfo8A55F3BF": Object {
+      "Properties": Object {
+        "Action": "lambda:InvokeFunction",
+        "FunctionName": Object {
+          "Fn::GetAtt": Array [
+            "UserPoolIdentityProviderGithubUserInfoFunction04398D35",
+            "Arn",
+          ],
+        },
+        "Principal": "apigateway.amazonaws.com",
+        "SourceArn": Object {
+          "Fn::Join": Array [
+            "",
+            Array [
+              "arn:",
+              Object {
+                "Ref": "AWS::Partition",
+              },
+              ":execute-api:",
+              Object {
+                "Ref": "AWS::Region",
+              },
+              ":",
+              Object {
+                "Ref": "AWS::AccountId",
+              },
+              ":",
+              Object {
+                "Ref": "UserPoolIdentityProviderGithubRestApi0F799446",
+              },
+              "/test-invoke-stage/GET/userinfo",
+            ],
+          ],
+        },
+      },
+      "Type": "AWS::Lambda::Permission",
+    },
+    "UserPoolIdentityProviderGithubRestApiuserinfoGETApiPermissionUserPoolIdentityProviderGithubRestApiA9E09D1EGETuserinfo76E7F2E9": Object {
+      "Properties": Object {
+        "Action": "lambda:InvokeFunction",
+        "FunctionName": Object {
+          "Fn::GetAtt": Array [
+            "UserPoolIdentityProviderGithubUserInfoFunction04398D35",
+            "Arn",
+          ],
+        },
+        "Principal": "apigateway.amazonaws.com",
+        "SourceArn": Object {
+          "Fn::Join": Array [
+            "",
+            Array [
+              "arn:",
+              Object {
+                "Ref": "AWS::Partition",
+              },
+              ":execute-api:",
+              Object {
+                "Ref": "AWS::Region",
+              },
+              ":",
+              Object {
+                "Ref": "AWS::AccountId",
+              },
+              ":",
+              Object {
+                "Ref": "UserPoolIdentityProviderGithubRestApi0F799446",
+              },
+              "/",
+              Object {
+                "Ref": "UserPoolIdentityProviderGithubRestApiDeploymentStageprod1DFED6FB",
+              },
+              "/GET/userinfo",
+            ],
+          ],
+        },
+      },
+      "Type": "AWS::Lambda::Permission",
+    },
+    "UserPoolIdentityProviderGithubRestApiuserinfoPOST6FD3A9EC": Object {
+      "Properties": Object {
+        "AuthorizationType": "NONE",
+        "HttpMethod": "POST",
+        "Integration": Object {
+          "IntegrationHttpMethod": "POST",
+          "Type": "AWS_PROXY",
+          "Uri": Object {
+            "Fn::Join": Array [
+              "",
+              Array [
+                "arn:",
+                Object {
+                  "Ref": "AWS::Partition",
+                },
+                ":apigateway:",
+                Object {
+                  "Ref": "AWS::Region",
+                },
+                ":lambda:path/2015-03-31/functions/",
+                Object {
+                  "Fn::GetAtt": Array [
+                    "UserPoolIdentityProviderGithubUserInfoFunction04398D35",
+                    "Arn",
+                  ],
+                },
+                "/invocations",
+              ],
+            ],
+          },
+        },
+        "ResourceId": Object {
+          "Ref": "UserPoolIdentityProviderGithubRestApiuserinfo1EAF8AC8",
+        },
+        "RestApiId": Object {
+          "Ref": "UserPoolIdentityProviderGithubRestApi0F799446",
+        },
+      },
+      "Type": "AWS::ApiGateway::Method",
+    },
+    "UserPoolIdentityProviderGithubRestApiuserinfoPOSTApiPermissionTestUserPoolIdentityProviderGithubRestApiA9E09D1EPOSTuserinfoC4093A23": Object {
+      "Properties": Object {
+        "Action": "lambda:InvokeFunction",
+        "FunctionName": Object {
+          "Fn::GetAtt": Array [
+            "UserPoolIdentityProviderGithubUserInfoFunction04398D35",
+            "Arn",
+          ],
+        },
+        "Principal": "apigateway.amazonaws.com",
+        "SourceArn": Object {
+          "Fn::Join": Array [
+            "",
+            Array [
+              "arn:",
+              Object {
+                "Ref": "AWS::Partition",
+              },
+              ":execute-api:",
+              Object {
+                "Ref": "AWS::Region",
+              },
+              ":",
+              Object {
+                "Ref": "AWS::AccountId",
+              },
+              ":",
+              Object {
+                "Ref": "UserPoolIdentityProviderGithubRestApi0F799446",
+              },
+              "/test-invoke-stage/POST/userinfo",
+            ],
+          ],
+        },
+      },
+      "Type": "AWS::Lambda::Permission",
+    },
+    "UserPoolIdentityProviderGithubRestApiuserinfoPOSTApiPermissionUserPoolIdentityProviderGithubRestApiA9E09D1EPOSTuserinfo48D8EAE5": Object {
+      "Properties": Object {
+        "Action": "lambda:InvokeFunction",
+        "FunctionName": Object {
+          "Fn::GetAtt": Array [
+            "UserPoolIdentityProviderGithubUserInfoFunction04398D35",
+            "Arn",
+          ],
+        },
+        "Principal": "apigateway.amazonaws.com",
+        "SourceArn": Object {
+          "Fn::Join": Array [
+            "",
+            Array [
+              "arn:",
+              Object {
+                "Ref": "AWS::Partition",
+              },
+              ":execute-api:",
+              Object {
+                "Ref": "AWS::Region",
+              },
+              ":",
+              Object {
+                "Ref": "AWS::AccountId",
+              },
+              ":",
+              Object {
+                "Ref": "UserPoolIdentityProviderGithubRestApi0F799446",
+              },
+              "/",
+              Object {
+                "Ref": "UserPoolIdentityProviderGithubRestApiDeploymentStageprod1DFED6FB",
+              },
+              "/POST/userinfo",
+            ],
+          ],
+        },
+      },
+      "Type": "AWS::Lambda::Permission",
+    },
+    "UserPoolIdentityProviderGithubRestApiwellknownE0ADCF26": Object {
+      "Properties": Object {
+        "ParentId": Object {
+          "Fn::GetAtt": Array [
+            "UserPoolIdentityProviderGithubRestApi0F799446",
+            "RootResourceId",
+          ],
+        },
+        "PathPart": ".well-known",
+        "RestApiId": Object {
+          "Ref": "UserPoolIdentityProviderGithubRestApi0F799446",
+        },
+      },
+      "Type": "AWS::ApiGateway::Resource",
+    },
+    "UserPoolIdentityProviderGithubRestApiwellknownjwksjson9BF8A308": Object {
+      "Properties": Object {
+        "ParentId": Object {
+          "Ref": "UserPoolIdentityProviderGithubRestApiwellknownE0ADCF26",
+        },
+        "PathPart": "jwks.json",
+        "RestApiId": Object {
+          "Ref": "UserPoolIdentityProviderGithubRestApi0F799446",
+        },
+      },
+      "Type": "AWS::ApiGateway::Resource",
+    },
+    "UserPoolIdentityProviderGithubRestApiwellknownjwksjsonGET41046788": Object {
+      "Properties": Object {
+        "AuthorizationType": "NONE",
+        "HttpMethod": "GET",
+        "Integration": Object {
+          "IntegrationHttpMethod": "POST",
+          "Type": "AWS_PROXY",
+          "Uri": Object {
+            "Fn::Join": Array [
+              "",
+              Array [
+                "arn:",
+                Object {
+                  "Ref": "AWS::Partition",
+                },
+                ":apigateway:",
+                Object {
+                  "Ref": "AWS::Region",
+                },
+                ":lambda:path/2015-03-31/functions/",
+                Object {
+                  "Fn::GetAtt": Array [
+                    "UserPoolIdentityProviderGithubJwksFunction1B710A93",
+                    "Arn",
+                  ],
+                },
+                "/invocations",
+              ],
+            ],
+          },
+        },
+        "ResourceId": Object {
+          "Ref": "UserPoolIdentityProviderGithubRestApiwellknownjwksjson9BF8A308",
+        },
+        "RestApiId": Object {
+          "Ref": "UserPoolIdentityProviderGithubRestApi0F799446",
+        },
+      },
+      "Type": "AWS::ApiGateway::Method",
+    },
+    "UserPoolIdentityProviderGithubRestApiwellknownjwksjsonGETApiPermissionTestUserPoolIdentityProviderGithubRestApiA9E09D1EGETwellknownjwksjson0BFF159A": Object {
+      "Properties": Object {
+        "Action": "lambda:InvokeFunction",
+        "FunctionName": Object {
+          "Fn::GetAtt": Array [
+            "UserPoolIdentityProviderGithubJwksFunction1B710A93",
+            "Arn",
+          ],
+        },
+        "Principal": "apigateway.amazonaws.com",
+        "SourceArn": Object {
+          "Fn::Join": Array [
+            "",
+            Array [
+              "arn:",
+              Object {
+                "Ref": "AWS::Partition",
+              },
+              ":execute-api:",
+              Object {
+                "Ref": "AWS::Region",
+              },
+              ":",
+              Object {
+                "Ref": "AWS::AccountId",
+              },
+              ":",
+              Object {
+                "Ref": "UserPoolIdentityProviderGithubRestApi0F799446",
+              },
+              "/test-invoke-stage/GET/.well-known/jwks.json",
+            ],
+          ],
+        },
+      },
+      "Type": "AWS::Lambda::Permission",
+    },
+    "UserPoolIdentityProviderGithubRestApiwellknownjwksjsonGETApiPermissionUserPoolIdentityProviderGithubRestApiA9E09D1EGETwellknownjwksjson8762D538": Object {
+      "Properties": Object {
+        "Action": "lambda:InvokeFunction",
+        "FunctionName": Object {
+          "Fn::GetAtt": Array [
+            "UserPoolIdentityProviderGithubJwksFunction1B710A93",
+            "Arn",
+          ],
+        },
+        "Principal": "apigateway.amazonaws.com",
+        "SourceArn": Object {
+          "Fn::Join": Array [
+            "",
+            Array [
+              "arn:",
+              Object {
+                "Ref": "AWS::Partition",
+              },
+              ":execute-api:",
+              Object {
+                "Ref": "AWS::Region",
+              },
+              ":",
+              Object {
+                "Ref": "AWS::AccountId",
+              },
+              ":",
+              Object {
+                "Ref": "UserPoolIdentityProviderGithubRestApi0F799446",
+              },
+              "/",
+              Object {
+                "Ref": "UserPoolIdentityProviderGithubRestApiDeploymentStageprod1DFED6FB",
+              },
+              "/GET/.well-known/jwks.json",
+            ],
+          ],
+        },
+      },
+      "Type": "AWS::Lambda::Permission",
+    },
+    "UserPoolIdentityProviderGithubRestApiwellknownopenidconfiguration4BEA7214": Object {
+      "Properties": Object {
+        "ParentId": Object {
+          "Ref": "UserPoolIdentityProviderGithubRestApiwellknownE0ADCF26",
+        },
+        "PathPart": "openid-configuration",
+        "RestApiId": Object {
+          "Ref": "UserPoolIdentityProviderGithubRestApi0F799446",
+        },
+      },
+      "Type": "AWS::ApiGateway::Resource",
+    },
+    "UserPoolIdentityProviderGithubRestApiwellknownopenidconfigurationGET96E021A8": Object {
+      "Properties": Object {
+        "AuthorizationType": "NONE",
+        "HttpMethod": "GET",
+        "Integration": Object {
+          "IntegrationHttpMethod": "POST",
+          "Type": "AWS_PROXY",
+          "Uri": Object {
+            "Fn::Join": Array [
+              "",
+              Array [
+                "arn:",
+                Object {
+                  "Ref": "AWS::Partition",
+                },
+                ":apigateway:",
+                Object {
+                  "Ref": "AWS::Region",
+                },
+                ":lambda:path/2015-03-31/functions/",
+                Object {
+                  "Fn::GetAtt": Array [
+                    "UserPoolIdentityProviderGithubOpenIdDiscoveryFunction0CD1BB3A",
+                    "Arn",
+                  ],
+                },
+                "/invocations",
+              ],
+            ],
+          },
+        },
+        "ResourceId": Object {
+          "Ref": "UserPoolIdentityProviderGithubRestApiwellknownopenidconfiguration4BEA7214",
+        },
+        "RestApiId": Object {
+          "Ref": "UserPoolIdentityProviderGithubRestApi0F799446",
+        },
+      },
+      "Type": "AWS::ApiGateway::Method",
+    },
+    "UserPoolIdentityProviderGithubRestApiwellknownopenidconfigurationGETApiPermissionTestUserPoolIdentityProviderGithubRestApiA9E09D1EGETwellknownopenidconfiguration412C4B88": Object {
+      "Properties": Object {
+        "Action": "lambda:InvokeFunction",
+        "FunctionName": Object {
+          "Fn::GetAtt": Array [
+            "UserPoolIdentityProviderGithubOpenIdDiscoveryFunction0CD1BB3A",
+            "Arn",
+          ],
+        },
+        "Principal": "apigateway.amazonaws.com",
+        "SourceArn": Object {
+          "Fn::Join": Array [
+            "",
+            Array [
+              "arn:",
+              Object {
+                "Ref": "AWS::Partition",
+              },
+              ":execute-api:",
+              Object {
+                "Ref": "AWS::Region",
+              },
+              ":",
+              Object {
+                "Ref": "AWS::AccountId",
+              },
+              ":",
+              Object {
+                "Ref": "UserPoolIdentityProviderGithubRestApi0F799446",
+              },
+              "/test-invoke-stage/GET/.well-known/openid-configuration",
+            ],
+          ],
+        },
+      },
+      "Type": "AWS::Lambda::Permission",
+    },
+    "UserPoolIdentityProviderGithubRestApiwellknownopenidconfigurationGETApiPermissionUserPoolIdentityProviderGithubRestApiA9E09D1EGETwellknownopenidconfiguration61965769": Object {
+      "Properties": Object {
+        "Action": "lambda:InvokeFunction",
+        "FunctionName": Object {
+          "Fn::GetAtt": Array [
+            "UserPoolIdentityProviderGithubOpenIdDiscoveryFunction0CD1BB3A",
+            "Arn",
+          ],
+        },
+        "Principal": "apigateway.amazonaws.com",
+        "SourceArn": Object {
+          "Fn::Join": Array [
+            "",
+            Array [
+              "arn:",
+              Object {
+                "Ref": "AWS::Partition",
+              },
+              ":execute-api:",
+              Object {
+                "Ref": "AWS::Region",
+              },
+              ":",
+              Object {
+                "Ref": "AWS::AccountId",
+              },
+              ":",
+              Object {
+                "Ref": "UserPoolIdentityProviderGithubRestApi0F799446",
+              },
+              "/",
+              Object {
+                "Ref": "UserPoolIdentityProviderGithubRestApiDeploymentStageprod1DFED6FB",
+              },
+              "/GET/.well-known/openid-configuration",
+            ],
+          ],
+        },
+      },
+      "Type": "AWS::Lambda::Permission",
+    },
+    "UserPoolIdentityProviderGithubTokenFunction48DAAB6C": Object {
+      "DependsOn": Array [
+        "UserPoolIdentityProviderGithubTokenFunctionServiceRoleEF2EC260",
+      ],
+      "Properties": Object {
+        "Code": Object {
+          "S3Bucket": Object {
+            "Ref": "AssetParameters339f839a67c6b9f507dc7d48b38a2e930ddc98b48264bda301e31a141f2e3ebdS3BucketDB5AE1C4",
+          },
+          "S3Key": Object {
+            "Fn::Join": Array [
+              "",
+              Array [
+                Object {
+                  "Fn::Select": Array [
+                    0,
+                    Object {
+                      "Fn::Split": Array [
+                        "||",
+                        Object {
+                          "Ref": "AssetParameters339f839a67c6b9f507dc7d48b38a2e930ddc98b48264bda301e31a141f2e3ebdS3VersionKey1E3299C1",
+                        },
+                      ],
+                    },
+                  ],
+                },
+                Object {
+                  "Fn::Select": Array [
+                    1,
+                    Object {
+                      "Fn::Split": Array [
+                        "||",
+                        Object {
+                          "Ref": "AssetParameters339f839a67c6b9f507dc7d48b38a2e930ddc98b48264bda301e31a141f2e3ebdS3VersionKey1E3299C1",
+                        },
+                      ],
+                    },
+                  ],
+                },
+              ],
+            ],
+          },
+        },
+        "Environment": Object {
+          "Variables": Object {
+            "COGNITO_REDIRECT_URI": "https://cognito.domain/oauth2/idpresponse",
+            "GITHUB_API_URL": "https://api.github.com",
+            "GITHUB_CLIENT_ID": "myClientId",
+            "GITHUB_CLIENT_SECRET": "myClientSecret",
+            "GITHUB_LOGIN_URL": "https://github.com",
+          },
+        },
+        "Handler": "token.handler",
+        "Role": Object {
+          "Fn::GetAtt": Array [
+            "UserPoolIdentityProviderGithubTokenFunctionServiceRoleEF2EC260",
+            "Arn",
+          ],
+        },
+        "Runtime": "nodejs14.x",
+        "Timeout": 900,
+      },
+      "Type": "AWS::Lambda::Function",
+    },
+    "UserPoolIdentityProviderGithubTokenFunctionServiceRoleEF2EC260": Object {
+      "Properties": Object {
+        "AssumeRolePolicyDocument": Object {
+          "Statement": Array [
+            Object {
+              "Action": "sts:AssumeRole",
+              "Effect": "Allow",
+              "Principal": Object {
+                "Service": "lambda.amazonaws.com",
+              },
+            },
+          ],
+          "Version": "2012-10-17",
+        },
+        "ManagedPolicyArns": Array [
+          Object {
+            "Fn::Join": Array [
+              "",
+              Array [
+                "arn:",
+                Object {
+                  "Ref": "AWS::Partition",
+                },
+                ":iam::aws:policy/service-role/AWSLambdaBasicExecutionRole",
+              ],
+            ],
+          },
+        ],
+      },
+      "Type": "AWS::IAM::Role",
+    },
+    "UserPoolIdentityProviderGithubUserInfoFunction04398D35": Object {
+      "DependsOn": Array [
+        "UserPoolIdentityProviderGithubUserInfoFunctionServiceRoleD66648DA",
+      ],
+      "Properties": Object {
+        "Code": Object {
+          "S3Bucket": Object {
+            "Ref": "AssetParameters339f839a67c6b9f507dc7d48b38a2e930ddc98b48264bda301e31a141f2e3ebdS3BucketDB5AE1C4",
+          },
+          "S3Key": Object {
+            "Fn::Join": Array [
+              "",
+              Array [
+                Object {
+                  "Fn::Select": Array [
+                    0,
+                    Object {
+                      "Fn::Split": Array [
+                        "||",
+                        Object {
+                          "Ref": "AssetParameters339f839a67c6b9f507dc7d48b38a2e930ddc98b48264bda301e31a141f2e3ebdS3VersionKey1E3299C1",
+                        },
+                      ],
+                    },
+                  ],
+                },
+                Object {
+                  "Fn::Select": Array [
+                    1,
+                    Object {
+                      "Fn::Split": Array [
+                        "||",
+                        Object {
+                          "Ref": "AssetParameters339f839a67c6b9f507dc7d48b38a2e930ddc98b48264bda301e31a141f2e3ebdS3VersionKey1E3299C1",
+                        },
+                      ],
+                    },
+                  ],
+                },
+              ],
+            ],
+          },
+        },
+        "Environment": Object {
+          "Variables": Object {
+            "COGNITO_REDIRECT_URI": "https://cognito.domain/oauth2/idpresponse",
+            "GITHUB_API_URL": "https://api.github.com",
+            "GITHUB_CLIENT_ID": "myClientId",
+            "GITHUB_CLIENT_SECRET": "myClientSecret",
+            "GITHUB_LOGIN_URL": "https://github.com",
+          },
+        },
+        "Handler": "userinfo.handler",
+        "Role": Object {
+          "Fn::GetAtt": Array [
+            "UserPoolIdentityProviderGithubUserInfoFunctionServiceRoleD66648DA",
+            "Arn",
+          ],
+        },
+        "Runtime": "nodejs14.x",
+        "Timeout": 900,
+      },
+      "Type": "AWS::Lambda::Function",
+    },
+    "UserPoolIdentityProviderGithubUserInfoFunctionServiceRoleD66648DA": Object {
+      "Properties": Object {
+        "AssumeRolePolicyDocument": Object {
+          "Statement": Array [
+            Object {
+              "Action": "sts:AssumeRole",
+              "Effect": "Allow",
+              "Principal": Object {
+                "Service": "lambda.amazonaws.com",
+              },
+            },
+          ],
+          "Version": "2012-10-17",
+        },
+        "ManagedPolicyArns": Array [
+          Object {
+            "Fn::Join": Array [
+              "",
+              Array [
+                "arn:",
+                Object {
+                  "Ref": "AWS::Partition",
+                },
+                ":iam::aws:policy/service-role/AWSLambdaBasicExecutionRole",
+              ],
+            ],
+          },
+        ],
+      },
+      "Type": "AWS::IAM::Role",
+    },
+  },
+}
+`;
