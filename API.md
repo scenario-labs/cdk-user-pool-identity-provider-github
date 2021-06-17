@@ -4,18 +4,18 @@
 
 Name|Description
 ----|-----------
-[UserPoolIdentityProviderGithub](#user-pool-identity-provider-github-userpoolidentityprovidergithub)|GitHub OpenID Connect Wrapper for Cognito.
+[UserPoolIdentityProviderGithub](#cdk-user-pool-identity-provider-github-userpoolidentityprovidergithub)|GitHub OpenID Connect Wrapper for Cognito.
 
 
 **Interfaces**
 
 Name|Description
 ----|-----------
-[IUserPoolIdentityProviderGithubProps](#user-pool-identity-provider-github-iuserpoolidentityprovidergithubprops)|*No description*
+[IUserPoolIdentityProviderGithubProps](#cdk-user-pool-identity-provider-github-iuserpoolidentityprovidergithubprops)|*No description*
 
 
 
-## class UserPoolIdentityProviderGithub  <a id="user-pool-identity-provider-github-userpoolidentityprovidergithub"></a>
+## class UserPoolIdentityProviderGithub  <a id="cdk-user-pool-identity-provider-github-userpoolidentityprovidergithub"></a>
 
 GitHub OpenID Connect Wrapper for Cognito.
 
@@ -33,7 +33,7 @@ new UserPoolIdentityProviderGithub(scope: Construct, id: string, props: IUserPoo
 
 * **scope** (<code>[Construct](#aws-cdk-core-construct)</code>)  *No description*
 * **id** (<code>string</code>)  *No description*
-* **props** (<code>[IUserPoolIdentityProviderGithubProps](#user-pool-identity-provider-github-iuserpoolidentityprovidergithubprops)</code>)  *No description*
+* **props** (<code>[IUserPoolIdentityProviderGithubProps](#cdk-user-pool-identity-provider-github-iuserpoolidentityprovidergithubprops)</code>)  *No description*
 
 
 
@@ -46,7 +46,7 @@ Name | Type | Description
 
 
 
-## interface IUserPoolIdentityProviderGithubProps  <a id="user-pool-identity-provider-github-iuserpoolidentityprovidergithubprops"></a>
+## interface IUserPoolIdentityProviderGithubProps  <a id="cdk-user-pool-identity-provider-github-iuserpoolidentityprovidergithubprops"></a>
 
 
 

@@ -3,7 +3,7 @@ const { AwsCdkConstructLibrary, ProjectType } = require('projen');
 
 const project = new AwsCdkConstructLibrary({
   // ProjectOptions
-  name: 'user-pool-identity-provider-github',
+  name: 'cdk-user-pool-identity-provider-github',
   projectType: ProjectType.LIB,
 
   // NodeProjectOptions
@@ -13,7 +13,7 @@ const project = new AwsCdkConstructLibrary({
   // docgen: true,
 
   // JsiiProjectOptions
-  repositoryUrl: 'https://github.com/scenario-labs/user-pool-identity-provider-github.git',
+  repositoryUrl: 'https://github.com/scenario-labs/cdk-user-pool-identity-provider-github.git',
   // dotnet: {
   //   dotNetNamespace: 'Acme.HelloNamespace',
   //   packageId: 'Acme.HelloPackage',
@@ -50,7 +50,7 @@ const project = new AwsCdkConstructLibrary({
   licensed: 'true',
   copyrightOwner: 'Scenario',
   copyrightPeriod: '2021',
-  repository: 'https://github.com/scenario-labs/user-pool-identity-provider-github.git',
+  repository: 'https://github.com/scenario-labs/cdk-user-pool-identity-provider-github.git',
   keywords: ['Cognito user pool', 'Github', 'CDK construct'],
 });
 project.synth();

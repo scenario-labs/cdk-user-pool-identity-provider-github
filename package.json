@@ -1,9 +1,9 @@
 {
-  "name": "user-pool-identity-provider-github",
+  "name": "cdk-user-pool-identity-provider-github",
   "description": "A CDK construct that adds GitHub as an identity provider to a Cognito user pool",
   "repository": {
     "type": "git",
-    "url": "https://github.com/scenario-labs/user-pool-identity-provider-github.git"
+    "url": "https://github.com/scenario-labs/cdk-user-pool-identity-provider-github.git"
   },
   "scripts": {
     "clobber": "npx projen clobber",
