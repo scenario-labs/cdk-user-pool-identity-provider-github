@@ -32,7 +32,7 @@ import { UserPoolIdentityProviderGithub } from 'cdk-user-pool-identity-provider-
 new UserPoolIdentityProviderGithub(this, 'UserPoolIdentityProviderGithub', {
   userPool: myUserPool,
   clientId: 'myClientId',
-  clientSeret: 'myClientSecret',
+  clientSecret: 'myClientSecret',
   cognitoHostedUiDomain: 'https://auth.domain.com',
 });
 ```
@@ -87,7 +87,7 @@ new ARecord(this, 'CustomDomainAliasRecord', {
 new UserPoolIdentityProviderGithub(this, 'UserPoolIdentityProviderGithub', {
   userPool,
   clientId: githubClientId,
-  clientSeret: githubClientSecret,
+  clientSecret: githubClientSecret,
   cognitoHostedUiDomain: userPoolDomainName,
 });
 
