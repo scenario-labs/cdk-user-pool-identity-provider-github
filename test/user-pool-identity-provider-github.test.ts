@@ -8,6 +8,15 @@ const clientId = 'myClientId';
 const clientSecret = 'myClientSecret';
 const cognitoHostedUiDomain = 'https://cognito.domain';
 
+expect.addSnapshotSerializer({
+  test: val => typeof val === 'string',
+  print: val => {
+    const newVal = (val as string).replace(/AssetParameters([A-Fa-f0-9]{64})(\w+)/, '[HASH REMOVED]');
+    const newVal2 = newVal.replace(/(\w+) (\w+) for asset\s?(version)?\s?"([A-Fa-f0-9]{64})"/, '[HASH REMOVED]');
+    return `"${newVal2}"`;
+  },
+});
+
 test('snapshot', () => {
   const stack = new Stack();
   new UserPoolIdentityProviderGithub(stack, 'UserPoolIdentityProviderGithub', {
