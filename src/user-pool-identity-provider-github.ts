@@ -1,4 +1,3 @@
-import * as path from 'path';
 import { LambdaIntegration, RestApi } from '@aws-cdk/aws-apigateway';
 import { CfnUserPoolIdentityProvider, UserPool } from '@aws-cdk/aws-cognito';
 import { Code, Function, Runtime } from '@aws-cdk/aws-lambda';
@@ -50,9 +49,7 @@ export class UserPoolIdentityProviderGithub extends Construct {
     const wellKnownResource = api.root.addResource('.well-known');
 
     const commonFunctionProps = {
-      code: Code.fromAsset(
-        path.join(__dirname, '../vendor/github-cognito-openid-wrapper'),
-      ),
+      code: Code.fromDockerBuild(__dirname),
       environment: {
         GITHUB_CLIENT_ID: props.clientId,
         GITHUB_CLIENT_SECRET: props.clientSecret,

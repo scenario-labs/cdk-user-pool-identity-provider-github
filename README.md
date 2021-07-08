@@ -113,14 +113,10 @@ This project uses the [projen](https://github.com/projen/projen) project generat
 
 Please use [conventional commits](https://www.conventionalcommits.org) to ease automated versioning and changelog generation.
 
-Note that the github-cognito-openid-wrapper code is vendored [here](./vendor/github-cognito-openid-vendor). To benefit from newer versions, run the following command:
-
-```bash
-./scripts/bump-github-cognito-openid-wrapper.sh
-```
+Note that the github-cognito-openid-wrapper version is defined [here](./src/Dockerfile). To benefit from newer versions, please update the git tag in the Dockerfile.
 
 ## License
 
 This code is distributed under MIT license, that you can read [here](./LICENSE).
 
-It also redistributes code from [GitHub OpenID Connect Wrapper for Cognito](https://github.com/TimothyJones/github-cognito-openid-wrapper), distributed under BSD 3-Clause license, that you can read [here](./vendor/github-cognito-openid-wrapper/LICENSE).
+It also redistributes code from [GitHub OpenID Connect Wrapper for Cognito](https://github.com/TimothyJones/github-cognito-openid-wrapper), distributed under BSD 3-Clause license, that you can read [here](https://github.com/TimothyJones/github-cognito-openid-wrapper/blob/master/LICENSE).
