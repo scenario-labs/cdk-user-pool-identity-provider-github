@@ -53,4 +53,9 @@ const project = new AwsCdkConstructLibrary({
   repository: 'https://github.com/scenario-labs/cdk-user-pool-identity-provider-github.git',
   keywords: ['Cognito user pool', 'Github', 'CDK construct'],
 });
+
+// The Dockerfile isn't interpreted by TypeScript
+// We need to copy it manually
+project.compileTask.exec('cp src/Dockerfile lib/');
+
 project.synth();

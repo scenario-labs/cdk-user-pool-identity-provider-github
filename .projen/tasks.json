@@ -43,6 +43,9 @@
         },
         {
           "spawn": "docgen"
+        },
+        {
+          "exec": "cp src/Dockerfile lib/"
         }
       ]
     },
