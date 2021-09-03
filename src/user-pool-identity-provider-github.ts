@@ -24,6 +24,10 @@ export interface IUserPoolIdentityProviderGithubProps {
    * The URL of the Git repository for the GitHub wrapper
    */
   gitUrl?: string;
+  /**
+   * The branch of ther Git repository to clone for the GitHub wrapper
+   */
+  gitBranch?: string;
 }
 
 /**
@@ -56,6 +60,7 @@ export class UserPoolIdentityProviderGithub extends Construct {
       code: Code.fromDockerBuild(__dirname, {
         buildArgs: {
           GIT_URL: props.gitUrl ?? 'https://github.com/TimothyJones/github-cognito-openid-wrapper',
+          GIT_BRANCH: props.gitBranch ?? 'v1.2.0',
         },
       }),
       environment: {
