@@ -20,6 +20,14 @@ export interface IUserPoolIdentityProviderGithubProps {
    * The Cognito hosted UI domain.
    */
   cognitoHostedUiDomain: string;
+  /**
+   * The URL of the Git repository for the GitHub wrapper
+   */
+  gitUrl?: string;
+  /**
+   * The branch of ther Git repository to clone for the GitHub wrapper
+   */
+  gitBranch?: string;
 }
 
 /**
@@ -49,7 +57,12 @@ export class UserPoolIdentityProviderGithub extends Construct {
     const wellKnownResource = api.root.addResource('.well-known');
 
     const commonFunctionProps = {
-      code: Code.fromDockerBuild(__dirname),
+      code: Code.fromDockerBuild(__dirname, {
+        buildArgs: {
+          GIT_URL: props.gitUrl ?? 'https://github.com/TimothyJones/github-cognito-openid-wrapper',
+          GIT_BRANCH: props.gitBranch ?? 'v1.2.0',
+        },
+      }),
       environment: {
         GITHUB_CLIENT_ID: props.clientId,
         GITHUB_CLIENT_SECRET: props.clientSecret,

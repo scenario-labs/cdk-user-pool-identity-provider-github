@@ -60,6 +60,8 @@ Name | Type | Description
 **clientSecret** | <code>string</code> | The client secret to be accompanied with clientId for Github APIs to authenticate the client.
 **cognitoHostedUiDomain** | <code>string</code> | The Cognito hosted UI domain.
 **userPool** | <code>[UserPool](#aws-cdk-aws-cognito-userpool)</code> | The user pool.
+**gitBranch**? | <code>string</code> | The branch of ther Git repository to clone for the GitHub wrapper.<br/>__*Optional*__
+**gitUrl**? | <code>string</code> | The URL of the Git repository for the GitHub wrapper.<br/>__*Optional*__
 
 
 
