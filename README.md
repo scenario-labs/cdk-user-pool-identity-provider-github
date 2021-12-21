@@ -7,7 +7,7 @@ The goal behind is to make it as easy to use GitHub as an identity provider as o
 ## ⚠️ Project status
 
 At a first glance, the proposed construct is supposed to work. However, we ended up not using GitHub with Cognito and we cannot rightfully maintain a construct without using it. For this reason, we're archiving this repository. If anyone wants to maintain it, please open an issue.
-If you decide to use this construct (at your own risks), be aware that the a new SSH key might be generated every time the Dockerfile is build which could lead to a very short interruption of service during deployment. A solution would be to generate the SSH key outside of CDK and pass it through the context for instance.
+If you decide to use this construct (at your own risks), be aware that a new SSH key might be generated every time the Dockerfile is built which could lead to a very short interruption of service during deployment. A solution would be to generate the SSH key outside of CDK and pass it through the context for instance.
 
 ## Install
 
